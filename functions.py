@@ -1,7 +1,7 @@
 import json
 
 
-def get_tags():
+def get_tags():  # прохожу по списку постов, выделяю тэги
     with open("posts.json") as f:
         raw_json = f.read()
     posts = json.loads(raw_json)
@@ -11,7 +11,7 @@ def get_tags():
     return set(tags)
 
 
-def search_tags(tag):
+def search_tags(tag):  # прохожу по постам и ищу все посты, содержащие переданный тэг
     with open("posts.json") as f:
         raw_json = f.read()
     posts = json.loads(raw_json)
@@ -19,9 +19,17 @@ def search_tags(tag):
     for post in posts:
         if tag in post['content']:
             result.append(post)
-    print(result)
     return result
 
 
+def add_post(post):  # добавляю пост во файл posts.json
+    with open("posts.json") as f:
+        raw_json = f.read()
 
-print(get_tags())
+    posts = json.loads(raw_json)
+    posts.append(post)
+    raw_json = json.dumps(posts, ensure_ascii=False)
+
+    with open("posts.json", "w") as f:
+        f.write(raw_json)
+
