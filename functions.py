@@ -6,11 +6,22 @@ def get_tags():
         raw_json = f.read()
     posts = json.loads(raw_json)
     tags = []
-    chars_to_strip = "#!?;:.,&*()"
     for post in posts:
-        tags += [x.strip(chars_to_strip) for x in post['content'].split(" ") if x.startswith("#")]
+        tags += [x[1:] for x in post['content'].split(" ") if x.startswith("#")]
     return set(tags)
 
 
+def search_tags(tag):
+    with open("posts.json") as f:
+        raw_json = f.read()
+    posts = json.loads(raw_json)
+    result = []
+    for post in posts:
+        if tag in post['content']:
+            result.append(post)
+    print(result)
+    return result
 
-# print(get_tags())
+
+
+print(get_tags())
